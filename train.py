@@ -1,14 +1,13 @@
+###Checking hardware information###
+!nvidia-smi
+
 ###Upload files to google colab###
 from google.colab import files
 uploaded = files.upload()
 
-###Checking hardware information###
-!nvidia-smi
-
 import pandas as pd
 import io
 df = pd.read_csv(io.BytesIO(uploaded['tweets.csv']))
-
 
 import numpy as np
 import pandas as pd
@@ -62,8 +61,9 @@ train_dl = DataLoader(train_dataset,sampler = RandomSampler(train_dataset),
                      batch_size = 4)
 val_dl = DataLoader(val_dataset,sampler = SequentialSampler(val_dataset),
                      batch_size = 2)
-len(train_dl),len(val_dl)
+print(len(train_dl),len(val_dl))
 
+###Import BERT###
 model = BertForSequenceClassification.from_pretrained(
 'bert-base-uncased',
 num_labels = 3,
@@ -71,7 +71,6 @@ output_attentions = False,
 output_hidden_states = False)
 
 import random
-
 ###Seed_val can set whatever you like###
 seed_val = 7
 random.seed(seed_val)
@@ -124,16 +123,16 @@ def accuracy(preds,labels):
     pred_flat = np.argmax(preds,axis=1).flatten()
     label_flat = labels.flatten()
     return np.sum(pred_flat==label_flat)/len(label_flat)
+
 vv = []
 ac = []
 t = []
+
 from tqdm.notebook import tqdm
 for epoch in tqdm(range(1, epochs+1)):
     
     model.train()
-    
     loss_train_total = 0
-
     progress_bar = tqdm(train_dl, desc='Epoch {:1d}'.format(epoch), leave=False, disable=False)
     for batch in progress_bar:
 
