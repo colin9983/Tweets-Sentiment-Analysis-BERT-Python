@@ -4,6 +4,6 @@ The aim of this release is to fine-tune a BERT model for Twitter sentiment analy
 
 The code is built primarily on the BERT implementation, using pre-trained weights from the BERT-BASE library, and is used by pytorch to handle standard training and testing procedures.
 
-Requirements
+# Requirements
 Python >= 3.8
 (CUDA >= 10.1 for GPU training)
