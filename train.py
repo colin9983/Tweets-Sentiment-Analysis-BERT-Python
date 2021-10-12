@@ -171,3 +171,5 @@ for epoch in tqdm(range(1, epochs+1)):
     ac.append(val_acc)
     tqdm.write(f'Validation loss: {val_loss}')
     tqdm.write(f'Accuracy: {val_acc}')
+    
+plt.plot(ac)
