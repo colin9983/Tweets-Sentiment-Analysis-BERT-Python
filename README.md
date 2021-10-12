@@ -15,6 +15,7 @@ When fine-tuning BERT, over-fitting must be fought. The data set is too small fo
 
 The test set performance below was adopted with this configuration:
 
-| Accuracy  | 0.82  |
+---------------------
+| Accuracy  | 0.82 |
 | F1-Score | 0.81  |
 	
