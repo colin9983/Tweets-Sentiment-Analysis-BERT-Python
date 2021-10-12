@@ -15,6 +15,24 @@ When fine-tuning BERT, over-fitting must be fought. The data set is too small fo
 
 The test set performance below was adopted with this configuration:
 
+for i in text:
+    encoded_data = tokenizer.encode_plus(
+    str(i),
+    add_special_tokens=True,
+    max_length= 64,
+    pad_to_max_length = True,
+    return_attention_mask= True,
+    return_tensors='pt')
+    input_ids.append(encoded_data['input_ids'])
+    attention_mask.append(encoded_data['attention_mask'])
+    
+train_dl = DataLoader(train_dataset,sampler = RandomSampler(train_dataset),
+                     batch_size = 4)
+val_dl = DataLoader(val_dataset,sampler = SequentialSampler(val_dataset),
+                     batch_size = 2)
+		     
+optimizer = AdamW(model.parameters(),lr = 2e-5,eps=1e-8)
+
 | Accuracy | 0.82  |    
 -----------| ---------
 | F1-Score | 0.81  |
