@@ -173,3 +173,9 @@ for epoch in tqdm(range(1, epochs+1)):
     tqdm.write(f'Accuracy: {val_acc}')
     
 plt.plot(ac)
+
+###Save the pretrained model###
+output_dir = './'
+model_to_save = model.module if hasattr(model, 'module') else model
+model_to_save.save_pretrained(output_dir)
+tokenizer.save_pretrained(output_dir)
