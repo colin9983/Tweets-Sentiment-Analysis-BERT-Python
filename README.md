@@ -6,4 +6,4 @@ The code is built primarily on the BERT implementation, using pre-trained weight
 
 # Requirements
 Python >= 3.8
-(CUDA >= 10.1 for GPU training)
+CUDA >= 10.1 for GPU training
