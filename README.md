@@ -14,7 +14,7 @@ Training
 When fine-tuning BERT, over-fitting must be fought. The data set is too small for training BERT from scratch. Fine-tuning for too long or with too large a learning rate will make it easy for BERT to overfit on the training data, resulting in poor performance on the test set. Therefore, the learning rate of BERT should be set an order of magnitude lower than the classification head that was just initialised (see my configuration below). An additional weight decay term would not have made much difference either.
 
 The test set performance below was adopted with this configuration:
-
+```python
 for i in text:
     encoded_data = tokenizer.encode_plus(
     str(i),
@@ -32,7 +32,7 @@ val_dl = DataLoader(val_dataset,sampler = SequentialSampler(val_dataset),
                      batch_size = 2)
 		     
 optimizer = AdamW(model.parameters(),lr = 2e-5,eps=1e-8)
-
+```
 | Accuracy | 0.82  |    
 -----------| ---------
 | F1-Score | 0.81  |
