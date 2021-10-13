@@ -1,5 +1,9 @@
 # Tweets-Sentiment-Analysis-BERT-Python
+This project was running under google colab, so that the files upload was different than local pc.
+
 The aim of this release is to fine-tune a BERT model for Twitter sentiment analysis, i.e. to classify tweets as negative, neutral and positive. Training data and validation data are sourced from Kaggle:https://www.kaggle.com/gargmanas/sentimental-analysis-for-tweets
+
+This contain four files including data cleaning, train, test, and predict. In this case, it is used to predict and tweets related with Apple inc. stock. You can upload your text files whatever you like if it has been cleaning.
 
 
 The code is built primarily on the BERT implementation, using pre-trained weights from the BERT-BASE library, and is used by pytorch to handle standard training and testing procedures.
