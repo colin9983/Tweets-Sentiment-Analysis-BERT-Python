@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+import preprocessor as p
+import time
+import csv
+import requests
+from datetime import datetime
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
+import re
+
+
+tweet = pd.read_csv("Tweet.csv")
+tweet_id = pd.read_csv("Company_Tweet.csv")
+
+###Merge data###
+tw = pd.merge(tweet, tweet_id, on="tweet_id")
+
+tw.drop(columns=['writer'], inplace=True)
+tw['post_date'] = pd.to_datetime(tw['post_date'], unit='s')
+
+###C
+def clean(text):
+    a = p.clean(text)
+    a = ' '.join(word for word in a.split(' ') if not word.startswith('$'))
+    a = re.sub('[^A-Za-z0-9]+', ' ', a)
+    a = a.lower()
+    return(a)
+
+start = time.time()
+c = []
+for i in tw['body']:
+    c.append(clean(i))
+end = time.time()
+print(end - start)
+clean(tw['body'])
+
+tw['tweet'] = c
+tw.dropna(inplace = True)
