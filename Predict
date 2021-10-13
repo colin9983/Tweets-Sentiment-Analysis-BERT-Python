@@ -1,0 +1,51 @@
+from google.colab import files
+uploaded = files.upload()
+
+###It needs to change yourself file's name###
+import pandas as pd
+import io
+aapl = pd.read_csv(io.BytesIO(uploaded['aapltweet.csv']),encoding= 'unicode_escape')
+
+
+test_text = aapl.tweet.values
+input_ids = []
+attention_mask = []
+for i in tqdm(test_text):
+    encoded_data = tokenizer.encode_plus(
+    str(i),
+    add_special_tokens=True,
+    max_length= 32,
+    pad_to_max_length = True,
+    return_attention_mask= True,
+    return_tensors='pt')
+    input_ids.append(encoded_data['input_ids'])
+    attention_mask.append(encoded_data['attention_mask'])
+input_ids = torch.cat(input_ids,dim=0)
+attention_mask = torch.cat(attention_mask,dim=0)
+
+testset = TensorDataset(input_ids,attention_mask)
+test_dl = DataLoader(testset)
+
+
+def evaluate2(dataloader_test):
+    model_loaded =  BertForSequenceClassification.from_pretrained(output_dir)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model_loaded = model_loaded.to(device)
+    predictions = []
+    
+    for batch in tqdm(dataloader_test):
+        batch = tuple(b.to(device) for b in batch)
+        inputs = {
+            'input_ids':batch[0],
+            'attention_mask': batch[1]
+        }
+        with torch.no_grad():
+            outputs = model_loaded(**inputs)
+        logits = outputs[0]
+        logits = logits.detach().cpu().numpy()
+        predictions.append(logits)
+    predictions = np.concatenate(predictions,axis=0)
+    result = np.argmax(predictions, axis=1).flatten()
+    return result
+
+predict_result = evaluate2(test_dl)
